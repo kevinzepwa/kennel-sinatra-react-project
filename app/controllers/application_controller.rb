@@ -1,0 +1,74 @@
+# class ApplicationController < Sinatra::Base
+#   set :default_content_type, 'application/json'
+  
+#   # Add your routes here
+#   get "/" do
+#     { message: "Good luck with your project!" }.to_json
+#   end
+
+# end
+
+
+class ApplicationController < Sinatra::Base
+  set :default_content_type, 'application/json'
+
+  before do
+    response.headers['Access-Control-Allow-Origin'] = "*"
+  end
+
+  #enable CORS prefLight requests
+  options "*" do
+    response.headers['Access-Control-Allow-Method'] = "GET, POST, PUT, PATCH, DELETE, OPTIONS"
+  end
+  
+  # Add your routes here
+  get "/" do
+    { message: "Am Lucky to have a code that works on first instance" }.to_json
+  end
+
+  # get all users in the database
+  get "/api/pets" do
+    Pet.all.to_json
+  end
+
+  #Get all users by ID
+  get "/api/pets/:id" do
+    User.find(params[:id]).to_json
+  end
+
+  #allows for user creation,
+  post "/api/pets" do
+    User.create(
+      name: params[:name],
+      price: params[:price],
+      owner: params[:owner],
+      location: params[:location],
+      # img: params[:img]
+      # age: params[:age]
+    )
+  end
+
+  # helps us to put/update user info
+  put "/api/pets/:id" do
+    user = User.find(params[:id])
+    user.update(
+      name: params[:name]? params[:name]: pet[:name],
+      price: params[:price]? params[:price]: pet[:price],
+      owner: params[:owner]? params[:owner]: pet[:owner],
+      location: params[:location]? params[:location]: pet[:location],
+      # age: params[:age]? params[:age]: pet[:age]
+      # img: params[:img]? params[:img]: pet[:img]
+    )
+
+    user.to_json
+  end
+
+  # deletes user by id
+  delete "/api/pets/:id" do
+    pet = Pet.find(params[:id])
+    pet.destroy
+
+    {message:"Pet Deleted Successfully"}.to_json
+  end
+
+end
