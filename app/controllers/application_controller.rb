@@ -33,34 +33,34 @@ class ApplicationController < Sinatra::Base
 
   #Get all users by ID
   get "/api/pets/:id" do
-    User.find(params[:id]).to_json
+    Pet.find(params[:id]).to_json
   end
 
   #allows for user creation,
   post "/api/pets" do
-    User.create(
+    Pet.create(
       name: params[:name],
       price: params[:price],
       owner: params[:owner],
       location: params[:location],
-      # img: params[:img]
+      img: params[:img]
       # age: params[:age]
     )
   end
 
   # helps us to put/update user info
   put "/api/pets/:id" do
-    user = User.find(params[:id])
-    user.update(
+    pet = Pet.find(params[:id])
+    pet.update(
       name: params[:name]? params[:name]: pet[:name],
       price: params[:price]? params[:price]: pet[:price],
       owner: params[:owner]? params[:owner]: pet[:owner],
       location: params[:location]? params[:location]: pet[:location],
+      img: params[:img]? params[:img]: pet[:img]
       # age: params[:age]? params[:age]: pet[:age]
-      # img: params[:img]? params[:img]: pet[:img]
     )
 
-    user.to_json
+    pet.to_json
   end
 
   # deletes user by id
