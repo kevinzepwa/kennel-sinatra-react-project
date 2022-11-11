@@ -16,27 +16,27 @@ class ApplicationController < Sinatra::Base
     response.headers['Access-Control-Allow-Origin'] = "*"
   end
 
-  #enable CORS prefLight requests
+  #enabling CORS prefLight requests
   options "*" do
     response.headers['Access-Control-Allow-Method'] = "GET, POST, PUT, PATCH, DELETE, OPTIONS"
   end
   
-  # Add your routes here
+  # Adding routes
   get "/" do
     { message: "Am Lucky to have a code that works on first instance" }.to_json
   end
 
-  # get all users in the database
+  # get all pet in the database
   get "/api/pets" do
     Pet.all.to_json
   end
 
-  #Get all users by ID
+  #Get all pet by ID
   get "/api/pets/:id" do
     Pet.find(params[:id]).to_json
   end
 
-  #allows for user creation,
+  #allows for pet creation,
   post "/api/pets" do
     Pet.create(
       name: params[:name],
@@ -48,7 +48,7 @@ class ApplicationController < Sinatra::Base
     )
   end
 
-  # helps us to put/update user info
+  # helps us to put/update pet info
   put "/api/pets/:id" do
     pet = Pet.find(params[:id])
     pet.update(
@@ -63,7 +63,7 @@ class ApplicationController < Sinatra::Base
     pet.to_json
   end
 
-  # deletes user by id
+  # deletes pet by id
   delete "/api/pets/:id" do
     pet = Pet.find(params[:id])
     pet.destroy
